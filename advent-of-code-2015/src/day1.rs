@@ -3,7 +3,7 @@ pub fn solve_part1(input: &[u8]) -> i32 {
     input.iter().fold(0, |floor, b| match b {
         b'(' => floor + 1,
         b')' => floor - 1,
-        _ => floor // Ignore any other characters
+        _ => floor, // Ignore any other characters
     })
 }
 
