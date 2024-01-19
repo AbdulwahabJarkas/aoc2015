@@ -5,11 +5,11 @@ pub fn generate(input: &str) -> Vec<Dimensions> {
     input
         .lines()
         .map(|l| {
-            let mut it = l.split('x');
+            let mut parts = l.split('x');
             (
-                it.next().unwrap().parse().unwrap(),
-                it.next().unwrap().parse().unwrap(),
-                it.next().unwrap().parse().unwrap(),
+                parts.next().unwrap().parse().unwrap(),
+                parts.next().unwrap().parse().unwrap(),
+                parts.next().unwrap().parse().unwrap(),
             )
         })
         .collect()
@@ -18,12 +18,12 @@ pub fn generate(input: &str) -> Vec<Dimensions> {
 #[aoc(day2, part1)]
 pub fn solve_part1(dims: &[Dimensions]) -> usize {
     dims.iter()
-        .map(|dim| {
-            let (l, w, h) = dim;
-            let a: usize = l * w;
+        .map(|&(l, w, h)| {
+            let a = l * w;
             let b = w * h;
-            let c = l * h;
-            a.min(b).min(c) + 2 * (a + b + c)
+            let c = h * l;
+            let slack = a.min(b).min(c);
+            2 * (a + b + c) + slack
         })
         .sum()
 }
@@ -31,8 +31,7 @@ pub fn solve_part1(dims: &[Dimensions]) -> usize {
 #[aoc(day2, part2)]
 pub fn solve_part2(dims: &[Dimensions]) -> usize {
     dims.iter()
-        .map(|dim| {
-            let (l, w, h) = dim;
+        .map(|&(l, w, h)| {
             let a = 2 * (l + w);
             let b = 2 * (w + h);
             let c = 2 * (l + h);
